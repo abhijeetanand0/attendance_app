@@ -1,5 +1,7 @@
 import 'package:attendance_app/features/common/topbar.dart';
 import 'package:attendance_app/features/home/attendance_screen.dart';
+import 'package:attendance_app/features/home/roll_entry_screen.dart';
+import 'package:attendance_app/features/home/toilet_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -86,7 +88,7 @@ class _StudentScreenState extends State<StudentScreen> {
               (total > 0 ? buildBar(width * 0.9) : Container()),
               SizedBox(height: 16),
               Container(
-                height: height * 0.7,
+                height: height * 0.67,
                 child: ListView(
                   children: (students.isNotEmpty == true)
                       ? students
@@ -222,42 +224,32 @@ class _StudentScreenState extends State<StudentScreen> {
       children: [
         Spacer(),
         Container(
-          // height: 45,
-          width: width * 0.33,
+          height: 60,
+          width: width * 0.3,
           decoration: BoxDecoration(
             // color: MyColors.fadedPrimary,
             border: Border.all(color: MyColors.borderColor, width: 1),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(30),
           ),
-
           child: ElevatedButton(
               onPressed: () async {
-                var res = await Navigator.push(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SimpleBarcodeScannerPage(),
+                      builder: (context) => RollEntryScreen(
+                          exam: widget.exam, course: widget.course),
                     ));
-
-                if (res != Null) {
-                  print(res);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AttendanceScreen(
-                            roll: res, exam: widget.exam, course: widget.course),
-                      ));
-                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: MyColors.fadedPrimary,
                 foregroundColor: Colors.white60,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
                 padding: EdgeInsets.symmetric(vertical: 10),
               ),
               child: Text(
-                'SCAN',
+                'MARK',
                 style: TextStyle().copyWith(
                     fontSize: 17.0,
                     fontWeight: FontWeight.w600,
@@ -267,22 +259,69 @@ class _StudentScreenState extends State<StudentScreen> {
         ),
         Spacer(),
         Container(
-          // height: 45,
-          width: width * 0.33,
+          height: 60,
+          width: 60,
           decoration: BoxDecoration(
             // color: MyColors.fadedPrimary,
             border: Border.all(color: MyColors.borderColor, width: 1),
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(30),
           ),
-
           child: ElevatedButton(
-              onPressed: () async {},
+            onPressed: () async {
+              var res = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SimpleBarcodeScannerPage(),
+                  ));
+
+              if (res != Null) {
+                print(res);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AttendanceScreen(
+                          roll: res, exam: widget.exam, course: widget.course),
+                    ));
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: MyColors.fadedPrimary,
+              foregroundColor: Colors.white60,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+            child: Icon(
+              IconData(0xe4f7,
+                  fontFamily: 'MaterialIcons'),
+            ),
+          ),
+        ),
+        Spacer(),
+        Container(
+          height: 60,
+          width: width * 0.3,
+          decoration: BoxDecoration(
+            // color: MyColors.fadedPrimary,
+            border: Border.all(color: MyColors.borderColor, width: 1),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ElevatedButton(
+              onPressed: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ToiletScreen(
+                          exam: widget.exam, course: widget.course),
+                    ));
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: MyColors.fadedPrimary,
                 foregroundColor: Colors.pink,
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(25.0), // Circular border radius
+                      BorderRadius.circular(30.0), // Circular border radius
                 ),
                 padding: EdgeInsets.symmetric(vertical: 10),
                 // elevation: 5.0,
